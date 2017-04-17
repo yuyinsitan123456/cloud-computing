@@ -1,12 +1,20 @@
-# cloud-computing
-# First meeting minutes
-# Set up git hub account & follow each other
-# Set up https://tree.taiga.io/ account
-# Finish first commit- due next meeting
-# Next meeting - Friday 7th Apirl project room1 MSD From 8:45
-# 
-# Git hub username:
-# yuyinsitan123456
-# Jessica-Fu
-# changlongG
-# larrymmm
+# Cluster and Cloud Computing - Project 2
+
+1、数据来源（Streaming & Searching）
+
+2、数据存放（CouchDB）
+
+3、数据处理（MapReduce/(Storm)）
+
+4、自然语言处理或其他（NLP）
+ 
+5、（虚拟机等）部署脚本
+
+6、展示
+
+Github username:
+* yuyinsitan123456
+* Jessica-Fu
+* changlongG
+* larrymmm
+* nekketsuing
