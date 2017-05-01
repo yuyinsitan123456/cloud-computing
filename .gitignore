@@ -33,10 +33,7 @@ nbproject/*
 
 # others
 nbactions.xml
+
 /TweetHarvest/target/
-
-### ACA (Web) ###
-/ACA/target/
-
-### SparkInCouch ###
+/WebApplication/target/
 /SparkInCouch/target

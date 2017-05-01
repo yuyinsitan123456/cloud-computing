@@ -8,30 +8,44 @@ import org.lightcouch.CouchDbProperties;
 
 public class TweetsInOneDay {
 
-    public static void main(String[] args) {
+    public static String startDate = "";
+    public static String endDate = "";
+    public static String dbHost = "127.0.0.1";
+    public static String startKey = "";
+    public static String endKey = "";
+    public static String view = "test/createdAt";
+
+    public static void generateStartAndEndDate() {
         Date dt = new Date();
-        //dt.setDate(26);
-        String[] s = dt.toString().split(" ");
+        /* Test date */
+        dt.setMonth(3);
+        dt.setDate(30);
         
+        String[] s = dt.toString().split(" ");
+
         dt.setHours(0);
         dt.setMinutes(0);
         dt.setSeconds(0);
-        String startKey = dt.toString();
-        startKey = startKey.replace(s[4], "+0000");
+        startDate = dt.toString().replace(s[4], "+0000");
 
         dt.setHours(23);
         dt.setMinutes(59);
         dt.setSeconds(59);
-        String endKey = dt.toString();
-        endKey = endKey.replace(s[4], "+0000");
-        
-        System.out.println(startKey + " - " + endKey);
+        endDate = dt.toString().replace(s[4], "+0000");
 
+        System.out.println(startDate + " - " + endDate);
+    }
+
+    public static void main(String[] args) {
+        generateStartAndEndDate();
+        
+        System.out.println("===== Retrieve by Date =====");
+        
         CouchDbProperties properties = new CouchDbProperties()
                 .setDbName("melbourne")
                 .setCreateDbIfNotExist(true)
                 .setProtocol("http")
-                .setHost("127.0.0.1")
+                .setHost(dbHost)
                 .setPort(5984)
                 .setMaxConnections(100)
                 .setConnectionTimeout(0);
@@ -40,41 +54,46 @@ public class TweetsInOneDay {
 
         long till = System.currentTimeMillis();
 
-        List<JsonObject> allDocs = db.view("test/createdAt")
-                .startKey(startKey)
-                .endKey(endKey)
+        List<JsonObject> allDocs = db.view(view)
+                .startKey(startDate)
+                .endKey(endDate)
                 .query(JsonObject.class);
 
-        /*
-        for (JsonObject doc : allDocs) {
-            System.out.println(doc.get("value").getAsString());
-        }
-        */
         System.out.println("Document count: " + allDocs.size());
-
         System.out.println("Total time: " + (System.currentTimeMillis() - till));
+
+        /* Get _id of the first document */
+        List<JsonObject> firstDoc = db.view(view)
+                .startKey(startDate)
+                .endKey(endDate)
+                .limit(1)
+                .query(JsonObject.class);
+
+        for (JsonObject doc : firstDoc) {
+            startKey = doc.get("value").getAsString();
+        }
+
+        /* Get _id of the last document */
+        List<JsonObject> lastDoc = db.view(view)
+                .descending(Boolean.TRUE)
+                .startKey(endDate)
+                .endKey(startDate)
+                .limit(1)
+                .query(JsonObject.class);
+
+        for (JsonObject doc : lastDoc) {
+            endKey = doc.get("value").getAsString();
+        }
         
-        /* First */
-        List<JsonObject> firstDoc = db.view("test/createdAt")
+        /* Check */
+        System.out.println("===== Retrieve by _id =====");
+        
+        allDocs = db.view("_all_docs")
                 .startKey(startKey)
                 .endKey(endKey)
-                .limit(1)
                 .query(JsonObject.class);
-        
-        for (JsonObject doc : firstDoc) {
-            System.out.println(doc.get("value").getAsString());
-        }
-        
-        /* Last */
-        List<JsonObject> lastDoc = db.view("test/createdAt")
-                .descending(Boolean.TRUE)
-                .startKey(endKey)
-                .endKey(startKey)
-                .limit(1)
-                .query(JsonObject.class);
-        
-        for (JsonObject doc : lastDoc) {
-            System.out.println(doc.get("value").getAsString());
-        }
+
+        System.out.println("Document count: " + allDocs.size());
+        System.out.println("Total time: " + (System.currentTimeMillis() - till));
     }
 }
