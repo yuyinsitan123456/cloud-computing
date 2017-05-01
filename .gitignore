@@ -37,3 +37,6 @@ nbactions.xml
 
 ### ACA (Web) ###
 /ACA/target/
+
+### SparkInCouch ###
+/SparkInCouch/target
