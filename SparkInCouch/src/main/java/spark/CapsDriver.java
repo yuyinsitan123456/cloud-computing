@@ -1,13 +1,17 @@
 package spark;
 
+import java.util.Iterator;
 import java.util.Map;
 import scala.Tuple2;
 
 public class CapsDriver {
 
     public static void main(String[] args) {
-        Map<Tuple2<Long, Integer>, Integer> result;
+        Map<Tuple2<Integer, Boolean>, Integer> result;
         result = new CapsTest().doSomething();
-        System.out.println(result.keySet().size());
+        for (Tuple2<Integer, Boolean> key : result.keySet()) {
+            System.out.println(key.productElement(1));
+            System.out.println(key + " : " + result.get(key));
+        }
     }
 }

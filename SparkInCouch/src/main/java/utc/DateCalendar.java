@@ -32,5 +32,11 @@ public class DateCalendar {
         c.add(Calendar.DATE, 1);
         dt = c.getTime();
         System.out.println(dt.toString());
+
+        /* Which day of the week is it? */
+        Date date = new Date("Sun Apr 30 17:04:11 +0000 2017");
+        c.set(1900 + date.getYear(), date.getMonth(), date.getDay() - 1);
+        System.out.println(c.getTime());
+        System.out.println(c.get(Calendar.DAY_OF_WEEK));
     }
 }
