@@ -52,12 +52,11 @@ public class GetLabeledTweet {
 	        objs = dbClient.view("_all_docs").includeDocs(true).skip(30).limit(10).query(JsonObject.class);
      }
 	 public void readStream(String fileName2,String fileName3)throws FileNotFoundException, IOException {
-		 StopWords sw = new StopWords();
 		 RemoveNoise rn = new RemoveNoise();
 		 StringBuffer sb;
 		 InputStream fis = new FileInputStream(fileName2);		
 	     JsonReader reader = new JsonReader(new InputStreamReader(fis, "UTF-8"));
-	     WriteFiles wf = new WriteFiles(fileName3);
+	   
 	     reader.setLenient(true);
 	     reader.beginArray();
 	     while (reader.hasNext()) {
@@ -100,7 +99,7 @@ public class GetLabeledTweet {
 	        						 sb. append(" ");
 	        					}
 	        					texttemp = sb.toString();
-	        					wf.writeFile(texttemp,"#positive");		 						
+	        					//wf.writeFile(texttemp,"#positive");		 						
 	        					this.positivetweets = this.positivetweets +1;
    		 						signal = 1;
 	        				}else if(texttemp.contains("😡")||texttemp.contains("😫")||texttemp.contains("😣")||
@@ -114,7 +113,7 @@ public class GetLabeledTweet {
 	        						 sb. append(" ");
 	        					}
 	        					texttemp = sb.toString();
-	        					wf.writeFile(texttemp,"#negative");		 						
+	        					//wf.writeFile(texttemp,"#negative");		 						
 	        					this.negativetweets = this.negativetweets +1;
    		 						signal = 1;
 	        				}
@@ -171,11 +170,11 @@ public class GetLabeledTweet {
 	        		       		 			}
 	        		       		 			texttemp = sb.toString();
 	        		       		 			if(totalscore>0&&!texttemp.trim().equals("")){	        		       		 					
-	        		       		 				wf.writeFile(texttemp,"#positive");
+	        		       		 				//wf.writeFile(texttemp,"#positive");
 	        		       		 				
 	        		       		 				this.positivetweets = this.positivetweets +1;
 	        		       		 			}else if(totalscore<0&&!texttemp.trim().equals("")){
-	        		       		 				wf.writeFile(texttemp,"#negative");
+	        		       		 				//wf.writeFile(texttemp,"#negative");
 	        		       		 				
 	        		       		 				this.negativetweets = this.negativetweets + 1;
 	        		       		 			}
@@ -195,7 +194,7 @@ public class GetLabeledTweet {
     		}
 	     }
 	     reader.endArray();
-	     wf.closeWrite();
+	    // wf.closeWrite();
 	     fis.close();
 	 }
 	 public int getTotalTweets(){
