@@ -68,5 +68,17 @@
             <artifactId>spark-cloudant</artifactId>
             <version>2.0.0-s_2.11</version>
         </dependency>
+
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>aliasi-lingpipe</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>aliasi-lingpipe</artifactId>
+            <version>4.1.0</version>
+        </dependency>
     </dependencies>
 </project>

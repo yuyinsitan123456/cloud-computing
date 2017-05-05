@@ -46,7 +46,7 @@ public class App {
 		System.out.println("\nTraining.");
 		for (int i = 0; i < mCategories.length; ++i) {
 			String category = mCategories[i];
-			ReadFiles read = new ReadFiles("C:/Users/ChangLong/Desktop/cloud/test.txt");
+			ReadFiles read = new ReadFiles("/Users/nek/Downloads/test.txt");
 			Classification classification = new Classification(category);
 			String line = read.getLine();
 			while (line != null) {
@@ -54,8 +54,11 @@ public class App {
 				if (category.equals(line.split("#")[1])) {
 					++numTrainingCases;
 					String review = line.split("#")[0];
+
+					System.out.println(review);
+
 					numTrainingChars += review.length();
-					Classified<CharSequence> classified = new Classified<CharSequence>(review, classification);
+					Classified<CharSequence> classified = new Classified<CharSequence>(review.trim(), classification);
 					mClassifier.handle(classified);
 				}
 				line = read.getLine();
@@ -124,8 +127,8 @@ public class App {
 		// CouchDbClient dbClient2 = new CouchDbClient("melbourne", true,
 		// "http", "127.0.0.1", 5984, "username", "secret");
 		// couchDBconnection();
-		App app = new App();
-		app.initialize();
+		//App app = new App();
+		//app.initialize();
 		/*
 		 * System.out.println("totaltweets: "+gt.getTotalTweets());
 		 * System.out.println("positivetweets: "+gt.getPositiveTweet());
@@ -139,14 +142,19 @@ public class App {
 /*		test[0] = "I am so happy right now.";
 		test[1] = "I hate do the homework, it's fucked.";
 		test[2] = "It's rainning, feel unhappy";
+		*/
 		try {
 			App app = new App();
 			app.train();
+			String[] test = new String[3];
+			test[0] = "I am so happy right now.";
+			test[1] = "I hate do the homework, it's fucked.";
+			test[2] = "It's rainning, feel fucking";
 			app.evaluate(test);
 		} catch (Throwable t) {
 			System.out.println("Thrown: " + t);
 			t.printStackTrace(System.out);
-		}*/
+		}
 	}
 
 }
