@@ -94,8 +94,7 @@ lib/
 .idea/
 *.iml
 
-
-
 /TweetHarvest/target/
 /WebApplication/target/
 /SparkInCouch/target/
+/PostProcessor/target/
