@@ -1,4 +1,4 @@
-package postcode;
+package postcode.vic;
 
 import org.json.JSONArray;
 
@@ -42,22 +42,26 @@ public class PostcodeJudge {
 
     private void drawPolygon(JSONArray cordSet, String postid) {
         //now begin to read cords in each postID
-        Path2D path = new Path2D.Double();
-        int k = cordSet.length();
-        double longitude[] = new double[k];
-        double latitude[] = new double[k];
-        for (int num = 0; num < k; num++) {
-            JSONArray cord = (JSONArray) cordSet.get(num);
-            longitude[num] = cord.getDouble(0);
-            latitude[num] = cord.getDouble(1);
-            if (num == 0) {
-                path.moveTo(longitude[0], latitude[0]);
-            } else {
-                path.lineTo(longitude[num], latitude[num]);
+        try {
+            Path2D path = new Path2D.Double();
+            int k = cordSet.length();
+            double longitude[] = new double[k];
+            double latitude[] = new double[k];
+            for (int num = 0; num < k; num++) {
+                JSONArray cord = (JSONArray) cordSet.get(num);
+                longitude[num] = cord.getDouble(0);
+                latitude[num] = cord.getDouble(1);
+                if (num == 0) {
+                    path.moveTo(longitude[0], latitude[0]);
+                } else {
+                    path.lineTo(longitude[num], latitude[num]);
+                }
             }
+            postcodeAreas.put(path, postid);
+            path.closePath();
+        } catch (Exception e) {
+            System.out.println(postid);
         }
-        postcodeAreas.put(path, postid);
-        path.closePath();
     }
 
     public String judge(double longitude, double latitude) {

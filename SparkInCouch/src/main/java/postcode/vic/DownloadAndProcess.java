@@ -1,7 +1,5 @@
-package postcode;
+package postcode.vic;
 
-import com.aliasi.classify.Classification;
-import com.aliasi.classify.Classified;
 import com.google.gson.JsonObject;
 import org.lightcouch.CouchDbClient;
 import org.lightcouch.CouchDbProperties;
@@ -12,7 +10,7 @@ public class DownloadAndProcess {
 
     public static void main(String[] args) {
         CouchDbProperties properties = new CouchDbProperties()
-                .setDbName("vic_postcode")
+                .setDbName("nsw_postcode")
                 .setCreateDbIfNotExist(true)
                 .setProtocol("http")
                 .setHost("127.0.0.1")
