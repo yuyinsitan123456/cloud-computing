@@ -16,7 +16,7 @@ public class ReadFileAndUpload {
     public static void main(String[] args) {
         /* Read file */
         StringBuilder sb = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader("/Users/nek/Desktop/CCCAsg2/AURIN/Sydney/PSMA_Postcodes__Polygon___August_2016_.json"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("/Users/nek/Desktop/CCCAsg2/AURIN/Sydney/PSMA_Greenspace__Polygon___August_2016_.json"))) {
             String str = null;
             while ((str = br.readLine()) != null) {
                 sb.append(str);
@@ -30,7 +30,7 @@ public class ReadFileAndUpload {
 
 
         /* Ready to upload */
-        CouchInsertor db = new CouchInsertor("nsw_postcode", "couchdb", "123456");
+        CouchInsertor db = new CouchInsertor("nsw_greenspace", "couchdb", "123456");
 
         /* Convert fileContent into big JsonObject */
         JsonObject file = new JsonParser().parse(fileContent).getAsJsonObject();
@@ -39,7 +39,7 @@ public class ReadFileAndUpload {
             JsonObject postcodeJson = postcodeElement.getAsJsonObject();
 
             db.insert(postcodeJson);
-
+            System.out.println(postcodeJson.toString());
             /*
             JsonArray arr = postcodeJson.getAsJsonObject("geometry").getAsJsonArray("coordinates").get(0).getAsJsonArray();
 

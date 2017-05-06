@@ -50,6 +50,7 @@ public class DownloadAndProcess {
                         ++i;
                     }
                     area.closePath();
+                    list.put(area, o.getAsJsonObject("properties").get("postcode").getAsString());
                 }
             }
         }
