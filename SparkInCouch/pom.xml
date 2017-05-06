@@ -44,7 +44,12 @@
     </repositories>
 
     <dependencies>
-        
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160212</version>
+        </dependency>
+
         <dependency>
             <groupId>org.lightcouch</groupId>
             <artifactId>lightcouch</artifactId> 

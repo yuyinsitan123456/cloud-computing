@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Map;
 import scala.Tuple2;
 
-public class CapsDriver {
+public class CapsTestDriver {
 
     public static void main(String[] args) {
         Map<Tuple2<Integer, Boolean>, Integer> result;

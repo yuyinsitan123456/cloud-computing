@@ -14,10 +14,10 @@ import org.lightcouch.CouchDbProperties;
 import java.io.*;
 import java.util.List;
 
-public class NLPProcessor {
+public class TagTweetsAndUpload {
     public static final int COUNT_PER_QUERY = 1000;
     public static void main(String[] args) throws IOException {
-        CouchInsert couchInsert = new CouchInsert();
+        CouchInsertor couchInsertor = new CouchInsertor("tagged", "couchdb", "123456");
 
         TrainingSetPrep t = new TrainingSetPrep();
         JsonParser parser = new JsonParser();
@@ -56,7 +56,7 @@ public class NLPProcessor {
                     System.out.println(result.get("text").getAsString());
                     result.addProperty("_id", o.get("_id").getAsString());
 
-                    couchInsert.insert(result);
+                    couchInsertor.insert(result);
 
                     Classified<CharSequence> classified = new Classified<CharSequence>(result.get("text").getAsString(), new Classification(result.get("sentiment").getAsString()));
                     mClassifier.handle(classified);
@@ -64,16 +64,10 @@ public class NLPProcessor {
             }
         }
 
+        /*
         FileOutputStream fileOut = new FileOutputStream("/Users/nek/Desktop/mClassifier.model");
         ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
         mClassifier.compileTo(objOut);
-
-        /*
-        Classification classification = mClassifier.classify("I love it");
-        System.out.println(classification.bestCategory());
-
-        classification = mClassifier.classify("I hate homework");
-        System.out.println(classification.bestCategory());
         */
     }
 }

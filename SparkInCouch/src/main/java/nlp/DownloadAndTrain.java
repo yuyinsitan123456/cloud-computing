@@ -33,8 +33,6 @@ public class DownloadAndTrain {
                 .setConnectionTimeout(0);
 
         CouchDbClient db = new CouchDbClient(properties);
-        CouchDbInfo dbInfo = db.context().info();
-        System.out.println(dbInfo.getDocCount());
 
         List<JsonObject> allDocs = db.view("_all_docs")
                 .includeDocs(true)

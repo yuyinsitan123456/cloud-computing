@@ -6,20 +6,20 @@ import org.lightcouch.CouchDbClient;
 import org.lightcouch.CouchDbProperties;
 import org.lightcouch.DocumentConflictException;
 
-public class CouchInsert {
+public class CouchInsertor {
     private CouchDbClient dbClient = null;
     private final JsonParser parser = new JsonParser();
 
-    public CouchInsert() {
+    public CouchInsertor(String dbName, String dbUser, String dbPassword) {
         CouchDbProperties properties = new CouchDbProperties()
-                .setDbName("tagged")
+                .setDbName(dbName)
                 .setCreateDbIfNotExist(true)
                 .setProtocol("http")
                 .setHost("127.0.0.1")
                 .setPort(5984)
                 .setMaxConnections(100)
-                .setUsername("couchdb")
-                .setPassword("123456")
+                .setUsername(dbUser)
+                .setPassword(dbPassword)
                 .setConnectionTimeout(0);
         try {
             dbClient = new CouchDbClient(properties);
