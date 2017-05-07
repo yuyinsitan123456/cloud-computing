@@ -15,18 +15,18 @@ import java.util.Map;
 public class VicGreenspaceJudge {
     private Map<Path2D, String> greenspaces = new HashMap<>();
 
-    public VicGreenspaceJudge() {
+    public VicGreenspaceJudge(String dbAddr, String dbUser, String dbPass) {
         System.out.println("Start VicGreenspace downloading.");
 
         CouchDbProperties properties = new CouchDbProperties()
                 .setDbName("vic_greenspace")
                 .setCreateDbIfNotExist(true)
                 .setProtocol("http")
-                .setHost("127.0.0.1")
+                .setHost(dbAddr)
                 .setPort(5984)
                 .setMaxConnections(100)
-                .setUsername("couchdb")
-                .setPassword("123456")
+                .setUsername(dbUser)
+                .setPassword(dbPass)
                 .setConnectionTimeout(0);
 
         CouchDbClient db = new CouchDbClient(properties);
@@ -34,7 +34,7 @@ public class VicGreenspaceJudge {
         List<JsonObject> allDocs = db.view("_all_docs")
                 .includeDocs(true)
                 .query(JsonObject.class);
-
+        db.shutdown();
         System.out.println("VicGreenspace downloading finished.");
 
         for (JsonObject o : allDocs) {
@@ -56,7 +56,7 @@ public class VicGreenspaceJudge {
                         ++i;
                     }
                     area.closePath();
-                    greenspaces.put(area, o.getAsJsonObject("properties").get("greenspace_label_name").getAsString());
+                    greenspaces.put(area, o.getAsJsonObject("properties").get("greenspace_pid").getAsString());
                 }
             }
         }

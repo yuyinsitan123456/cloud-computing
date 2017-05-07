@@ -16,18 +16,18 @@ import java.util.Map;
 public class NswGreenspaceJudge {
     private Map<Path2D, String> greenspaces = new HashMap<>();
 
-    public NswGreenspaceJudge() {
+    public NswGreenspaceJudge(String dbAddr, String dbUser, String dbPass) {
         System.out.println("Start NswGreenspace downloading.");
 
         CouchDbProperties properties = new CouchDbProperties()
                 .setDbName("nsw_greenspace")
                 .setCreateDbIfNotExist(true)
                 .setProtocol("http")
-                .setHost(Main.DB_ADDRESS)
+                .setHost(dbAddr)
                 .setPort(5984)
                 .setMaxConnections(100)
-                .setUsername(Main.DB_USER)
-                .setPassword(Main.DB_PASSWORD)
+                .setUsername(dbUser)
+                .setPassword(dbPass)
                 .setConnectionTimeout(0);
 
         CouchDbClient db = new CouchDbClient(properties);
@@ -35,7 +35,7 @@ public class NswGreenspaceJudge {
         List<JsonObject> allDocs = db.view("_all_docs")
                 .includeDocs(true)
                 .query(JsonObject.class);
-
+        db.shutdown();
         System.out.println("NswGreenspace downloading finished.");
 
         for (JsonObject o : allDocs) {
@@ -57,7 +57,7 @@ public class NswGreenspaceJudge {
                         ++i;
                     }
                     area.closePath();
-                    greenspaces.put(area, o.getAsJsonObject("properties").get("greenspace_label_name").getAsString());
+                    greenspaces.put(area, o.getAsJsonObject("properties").get("greenspace_pid").getAsString());
                 }
             }
         }

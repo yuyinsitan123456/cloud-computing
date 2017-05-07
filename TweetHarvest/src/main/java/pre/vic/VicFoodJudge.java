@@ -14,18 +14,18 @@ public class VicFoodJudge {
 
     private Map<Integer, Path2D> foods = new HashMap<>();
 
-    public VicFoodJudge() {
+    public VicFoodJudge(String dbAddr, String dbUser, String dbPass) {
         System.out.println("Start VicFood downloading.");
 
         CouchDbProperties properties = new CouchDbProperties()
                 .setDbName("food")
                 .setCreateDbIfNotExist(true)
                 .setProtocol("http")
-                .setHost(Main.DB_ADDRESS)
+                .setHost(dbAddr)
                 .setPort(5984)
                 .setMaxConnections(100)
-                .setUsername(Main.DB_USER)
-                .setPassword(Main.DB_PASSWORD)
+                .setUsername(dbUser)
+                .setPassword(dbPass)
                 .setConnectionTimeout(0);
 
         CouchDbClient db = new CouchDbClient(properties);
@@ -33,7 +33,7 @@ public class VicFoodJudge {
         List<JsonObject> allDocs = db.view("_all_docs")
                 .includeDocs(true)
                 .query(JsonObject.class);
-
+        db.shutdown();
         System.out.println("VicFood downloading finished.");
 
         List<Double> longitudes = null;

@@ -8,6 +8,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import pre.food.FoodRelevantJudge;
 import pre.nlp.NLPProcessor;
 import pre.nsw.NswGreenspaceJudge;
 import pre.nsw.NswPostcodeJudge;
@@ -36,6 +37,7 @@ public class Main {
     public static VicGreenspaceJudge vicGreenspaceJudge = null;
     public static NswGreenspaceJudge nswGreenspaceJudge = null;
     public static VicFoodJudge vicFoodJudge = null;
+    public static FoodRelevantJudge foodRelevantJudge = null;
     
     public static void main(String[] args) {        
         CommandLineParser parser = new DefaultParser();
@@ -51,13 +53,13 @@ public class Main {
             NLPProcessor nlp = null;
             if (NLP_MODE) nlp = new NLPProcessor(DB_ADDRESS, DB_USER, DB_PASSWORD);
 
-            VicPostcodes vicPostcodes = new VicPostcodes();
-            vicPostcodeJudge = new VicPostcodeJudge(
-                    vicPostcodes.getCords(), vicPostcodes.getPostID());
-            nswPostcodeJudge = new NswPostcodeJudge();
-            vicGreenspaceJudge = new VicGreenspaceJudge();
-            nswGreenspaceJudge = new NswGreenspaceJudge();
-            vicFoodJudge = new VicFoodJudge();
+            VicPostcodes vicPostcodes = new VicPostcodes(DB_ADDRESS, DB_USER, DB_PASSWORD);
+            vicPostcodeJudge = new VicPostcodeJudge(vicPostcodes.getCords(), vicPostcodes.getPostID());
+            nswPostcodeJudge = new NswPostcodeJudge(DB_ADDRESS, DB_USER, DB_PASSWORD);
+            vicGreenspaceJudge = new VicGreenspaceJudge(DB_ADDRESS, DB_USER, DB_PASSWORD);
+            nswGreenspaceJudge = new NswGreenspaceJudge(DB_ADDRESS, DB_USER, DB_PASSWORD);
+            vicFoodJudge = new VicFoodJudge(DB_ADDRESS, DB_USER, DB_PASSWORD);
+            foodRelevantJudge = new FoodRelevantJudge();
 
             new StreamingThread(OAUTH, DB_ADDRESS, LOCATION_WITH_TOKEN,
                     DB_USER, DB_PASSWORD, nlp).start();

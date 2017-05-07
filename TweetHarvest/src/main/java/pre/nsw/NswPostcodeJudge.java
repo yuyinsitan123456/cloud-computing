@@ -15,18 +15,18 @@ import java.util.Map;
 public class NswPostcodeJudge {
     private Map<Path2D, String> list = null;
 
-    public NswPostcodeJudge() {
+    public NswPostcodeJudge(String dbAddr, String dbUser, String dbPass) {
         System.out.println("Start NswPostcode downloading.");
 
         CouchDbProperties properties = new CouchDbProperties()
                 .setDbName("nsw_postcode")
                 .setCreateDbIfNotExist(true)
                 .setProtocol("http")
-                .setHost(Main.DB_ADDRESS)
+                .setHost(dbAddr)
                 .setPort(5984)
                 .setMaxConnections(100)
-                .setUsername(Main.DB_USER)
-                .setPassword(Main.DB_PASSWORD)
+                .setUsername(dbUser)
+                .setPassword(dbPass)
                 .setConnectionTimeout(0);
 
         CouchDbClient db = new CouchDbClient(properties);
@@ -34,7 +34,7 @@ public class NswPostcodeJudge {
         List<JsonObject> allDocs = db.view("_all_docs")
                 .includeDocs(true)
                 .query(JsonObject.class);
-
+        db.shutdown();
         System.out.println("NswPostcode downloading finished.");
 
         list = new HashMap<>();

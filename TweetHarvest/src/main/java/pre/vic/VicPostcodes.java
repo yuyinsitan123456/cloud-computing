@@ -31,18 +31,18 @@ public class VicPostcodes {
         this.postID = postID;
     }
 
-    public VicPostcodes() {
+    public VicPostcodes(String dbAddr, String dbUser, String dbPass) {
         System.out.println("Start VicPostcode downloading.");
 
         CouchDbProperties dbProperties = new CouchDbProperties()
                 .setDbName("vic_postcode")
                 .setCreateDbIfNotExist(true)
                 .setProtocol("http")
-                .setHost("127.0.0.1")
+                .setHost(dbAddr)
                 .setPort(5984)
                 .setMaxConnections(100)
-                .setUsername(Main.DB_USER)
-                .setPassword(Main.DB_PASSWORD)
+                .setUsername(dbUser)
+                .setPassword(dbPass)
                 .setConnectionTimeout(0);
 
         CouchDbClient db = new CouchDbClient(dbProperties);
@@ -50,7 +50,7 @@ public class VicPostcodes {
         List<JsonObject> allDocs = db.view("_all_docs")
                 .includeDocs(true)
                 .query(JsonObject.class);
-
+        db.shutdown();
         System.out.println("VicPostcode Downloading finished.");
 
 
@@ -70,7 +70,6 @@ public class VicPostcodes {
             JSONObject cordsSet = feature.getJSONObject("geometry");
             JSONArray polyCords = cordsSet.getJSONArray("coordinates");
             Cords.add(polyCords);
-
 
             //getting postID
             JSONObject properties = feature.getJSONObject("properties");

@@ -7,8 +7,8 @@ public class Locations {
     public static final HashMap<String, LocationWithToken> INDEX = new HashMap<>();
     
     static {
-        INDEX.put("sydney", new LocationWithToken("sydney", getCityLocation(150.6396, -34.1399, 151.3439, -33.5780)));
-        INDEX.put("melbourne", new LocationWithToken("melbourne", getCityLocation(144.5532, -38.2250, 145.5498, -37.5401)));
+        INDEX.put("sydney", new LocationWithToken("syd", getCityLocation(150.6396, -34.1399, 151.3439, -33.5780)));
+        INDEX.put("melbourne", new LocationWithToken("mel", getCityLocation(144.5532, -38.2250, 145.5498, -37.5401)));
     }
     
     public static LocationWithToken getLocationWithToken(String token) {

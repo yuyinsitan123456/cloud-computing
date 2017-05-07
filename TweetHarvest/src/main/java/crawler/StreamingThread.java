@@ -117,6 +117,7 @@ public class StreamingThread extends Thread {
                 tweet.addProperty("vic_greenspace", vicGreenspace);
                 tweet.addProperty("nsw_greenspace", nswGreenspace);
                 tweet.addProperty("vic_food", vicFood);
+                tweet.addProperty("food_relevant", Main.foodRelevantJudge.judge(tweet));
 
                 db.insertTweet(tweet);
             } catch (InterruptedException ex) {
