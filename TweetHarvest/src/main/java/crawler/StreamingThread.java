@@ -1,5 +1,8 @@
 package crawler;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.twitter.hbc.ClientBuilder;
 import com.twitter.hbc.core.Constants;
 import com.twitter.hbc.core.Hosts;
@@ -20,17 +23,22 @@ import db.CouchOperation;
 import db.DatabaseOperation;
 import exhandle.ErrorHandler;
 import geo.LocationWithToken;
+import pre.nlp.NLPProcessor;
 import setting.OAuthSet;
+import th.Main;
 
 public class StreamingThread extends Thread {
 
+    private final JsonParser parser = new JsonParser();
     private final BlockingQueue<String> msgQueue;
     private final BasicClient client;
     private Location location = null;
     private DatabaseOperation db = null;
+    private NLPProcessor nlp = null;
     private final int HEARTBEART_INTERVAL = 2000;
 
-    public StreamingThread(OAuthSet oauth, String dbAddr, LocationWithToken locationWithToken, String dbUser, String dbPassword) {
+    public StreamingThread(OAuthSet oauth, String dbAddr, LocationWithToken locationWithToken,
+                           String dbUser, String dbPassword, NLPProcessor nlp) {
         this.location = locationWithToken.getLocation();
 
         List<Location> locations = Arrays.asList(location);
@@ -60,6 +68,8 @@ public class StreamingThread extends Thread {
         client = builder.build();
 
         db = new CouchOperation(dbAddr, locationWithToken.getToken(), dbUser, dbPassword);
+
+        this.nlp = nlp;
     }
 
     @Override
@@ -83,7 +93,32 @@ public class StreamingThread extends Thread {
         while (!client.isDone()) {
             try {
                 String msg = msgQueue.take();
-                db.insertTweet(msg);
+                JsonObject tweet = parser.parse(msg).getAsJsonObject();
+
+                if (nlp != null) nlp.addSentiment(tweet);
+
+                String vicPostcode = null;
+                String nswPostcode = null;
+                String vicGreenspace = null;
+                String nswGreenspace = null;
+                Integer vicFood = null;
+                if (tweet.has("coordinates") && tweet.get("coordinates").isJsonObject()) {
+                    JsonArray coords = tweet.getAsJsonObject("coordinates").getAsJsonArray("coordinates");
+                    double longitude = coords.get(0).getAsDouble();
+                    double latitude = coords.get(1).getAsDouble();
+                    vicPostcode = Main.vicPostcodeJudge.judge(longitude, latitude);
+                    nswPostcode = Main.nswPostcodeJudge.judge(longitude, latitude);
+                    vicGreenspace = Main.vicGreenspaceJudge.judge(longitude, latitude);
+                    nswGreenspace = Main.nswGreenspaceJudge.judge(longitude, latitude);
+                    vicFood = Main.vicFoodJudge.judge(longitude, latitude);
+                }
+                tweet.addProperty("vic_postcode", vicPostcode);
+                tweet.addProperty("nsw_postcode", nswPostcode);
+                tweet.addProperty("vic_greenspace", vicGreenspace);
+                tweet.addProperty("nsw_greenspace", nswGreenspace);
+                tweet.addProperty("vic_food", vicFood);
+
+                db.insertTweet(tweet);
             } catch (InterruptedException ex) {
                 ErrorHandler.process(this.getClass(), ex, false,
                         "InterruptedException occurred in StreamingThread. Please check StreamingThread settings.");

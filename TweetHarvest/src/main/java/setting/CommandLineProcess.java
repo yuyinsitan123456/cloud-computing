@@ -30,6 +30,7 @@ public class CommandLineProcess {
         options.addOption("dbPass", true, "Database password");
         options.addOption("mail", true, "Email address");
         options.addOption("reset", false, "Reset mode for search crawler");
+        options.addOption("nlp", false, "Start NLP_MODE pre-processor");
 
         options.addOption("help", false, "help");
         return options;
@@ -62,6 +63,11 @@ public class CommandLineProcess {
         if (line.hasOption("reset")) {
             Main.SEARCH_CRAWLER_RESET_MODE = true;
             System.out.println("Reset mode is on!");
+        }
+
+        if (line.hasOption("nlp")) {
+            Main.NLP_MODE = true;
+            System.out.println("Start NLP_MODE pre-processor!");
         }
     }
 }

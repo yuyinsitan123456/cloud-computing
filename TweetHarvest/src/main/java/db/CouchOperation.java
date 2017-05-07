@@ -7,6 +7,8 @@ import org.lightcouch.CouchDbProperties;
 import exhandle.ErrorHandler;
 import org.lightcouch.DocumentConflictException;
 
+import java.util.List;
+
 public class CouchOperation implements DatabaseOperation, AutoCloseable {
 
     private CouchDbClient dbClient = null;
@@ -32,26 +34,30 @@ public class CouchOperation implements DatabaseOperation, AutoCloseable {
     }
 
     @Override
-    public void insertTweet(String tweet) {
+    public void insertTweet(JsonObject tweet) {
         if (dbClient != null) {
             try {
-                JsonObject o = parser.parse(tweet).getAsJsonObject();
-                String id_str = o.get("id_str").getAsString();
+                String id_str = tweet.get("id_str").getAsString();
 
                 /* Insert only when the tweet is a new one */
-                
-                // If we don't check duplication?
                 // if (!dbClient.contains(id_str)) {
-                    o.addProperty("_id", id_str);
-                    dbClient.save(o);
+                tweet.addProperty("_id", id_str);
+                dbClient.save(tweet);
                 // }
             } catch (DocumentConflictException ex) {
-                // Do nothing
+                // Regular conclusion of duplication occurrence, so do nothing
             } catch (Exception ex) {
                 ErrorHandler.process(this.getClass(), ex, true,
                         "Failed to insert tweet into CouchDB. Please check CouchDB settings.");
             }
         }
+    }
+
+    @Override
+    public List<JsonObject> getAllDocs() {
+        return dbClient.view("_all_docs")
+                .includeDocs(true)
+                .query(JsonObject.class);
     }
 
     @Override
