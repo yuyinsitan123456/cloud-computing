@@ -6,18 +6,14 @@ import java.util.List;
 
 public class GetDbView {
     public void getDbView(String dbName, String viewName) {
-        String dbAddr = "127.0.0.1";
-        String dbUser = "couchdb";
-        String dbPassword = "123456";
-
         CouchDbProperties properties = new CouchDbProperties()
                 .setDbName(dbName)
                 .setCreateDbIfNotExist(true)
                 .setProtocol("http")
-                .setHost(dbAddr)
+                .setHost(Main.dbAddr)
                 .setPort(5984)
-                .setUsername(dbUser)
-                .setPassword(dbPassword)
+                .setUsername(Main.dbUser)
+                .setPassword(Main.dbPassword)
                 .setMaxConnections(100)
                 .setConnectionTimeout(0);
 
