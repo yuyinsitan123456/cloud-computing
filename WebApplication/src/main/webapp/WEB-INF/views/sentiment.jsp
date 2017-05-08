@@ -65,15 +65,15 @@
         }
     </style>
 
-    <script src="/resources/d3.v3.min.js"></script>
-    <script src="/resources/bullet.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="/resources/liquidFillGauge.js" language="JavaScript"></script>
+    <script src="/resources/sentiment/d3.v3.min.js"></script>
+    <script src="/resources/sentiment/bullet.js"></script>
+    <script src="/resources/sentiment/jquery.min.js"></script>
+    <script src="/resources/sentiment/liquidFillGauge.js" language="JavaScript"></script>
 </head>
 
 <body>
     <div style="width:50%;margin: 0 auto;text-align: center;">How many POSITIVE tweets are there in Melbourne & Sydney?</div>
-    <button>Update</button>
+    <button id="btn01">Update</button>
     <div style="width:80%;margin: 0 auto;text-align: center;">
         <table style="margin: 0 auto;">
             <tr height="200">
@@ -95,8 +95,8 @@
                 </td>
             </tr>
         </table>
-
     </div>
+    <div style="width:80%;margin: 20px auto;text-align: center;">How many POSITIVE tweets are there in each weekday in (Melbourne + Sydney)?</div>
     <div id="barchart"></div>
 
     <script>
@@ -115,52 +115,52 @@
         var dataJson = [
             {
                 "title": "Monday",
-                "subtitle": "%",
-                "ranges": [150, 225, 300],
-                "measures": [220],
+                "subtitle": "",
+                "ranges": [0, 0, 0],
+                "measures": [0],
                 "markers": [0]
             },
             {
                 "title": "Tuesday",
-                "subtitle": "%",
-                "ranges": [20, 25, 30],
-                "measures": [21],
-                "markers": [26]
+                "subtitle": "",
+                "ranges": [0, 0, 0],
+                "measures": [0],
+                "markers": [0]
             },
             {
                 "title": "Wednesday",
-                "subtitle": "%",
-                "ranges": [350, 500, 600],
-                "measures": [320],
-                "markers": [550]
+                "subtitle": "",
+                "ranges": [0, 0, 0],
+                "measures": [0],
+                "markers": [0]
             },
             {
                 "title": "Thursday",
-                "subtitle": "%",
-                "ranges": [1400, 2000, 2500],
-                "measures": [1000],
-                "markers": [2100]
+                "subtitle": "",
+                "ranges": [0, 0, 0],
+                "measures": [0],
+                "markers": [0]
             },
             {
                 "title": "Friday",
-                "subtitle": "%",
-                "ranges": [3.5, 4.25, 5],
-                "measures": [3.2],
-                "markers": [4.4]
+                "subtitle": "",
+                "ranges": [0, 0, 0],
+                "measures": [0],
+                "markers": [0]
             },
             {
                 "title": "Saturday",
-                "subtitle": "%",
-                "ranges": [3.5, 4.25, 5],
-                "measures": [4.7],
-                "markers": [4.4]
+                "subtitle": "",
+                "ranges": [0, 0, 0],
+                "measures": [0],
+                "markers": [0]
             },
             {
                 "title": "Sunday",
-                "subtitle": "%",
-                "ranges": [3.5, 4.25, 5],
-                "measures": [4.7],
-                "markers": [4.4]
+                "subtitle": "",
+                "ranges": [0, 0, 0],
+                "measures": [0],
+                "markers": [0]
             }
 
 
@@ -226,6 +226,8 @@
                 svg.data(data).call(chart.duration(1000)); // TODO automatic transition
 
             });
+
+            $('#btn01').text('Last Updated: ' + new Date().toTimeString());
         });
 
     </script>
