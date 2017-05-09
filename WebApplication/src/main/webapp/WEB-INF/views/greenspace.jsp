@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" pageEncoding="UTF-8"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -70,23 +71,24 @@
     <div class="nav">
         <ul>
             <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/sentiment">Sentiment</a></li>
+            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/postcode/mel">Postcode{Mel}</a></li>
+            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/postcode/syd">Postcode{Syd}</a></li>
             <c:choose>
                 <c:when test="${state.equals('mel')}">
-                    <li><a style="font-size: 14px" class="active" href="<%=request.getContextPath()%>/postcode/mel">Postcode{Mel}</a></li>
-                    <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/postcode/syd">Postcode{Syd}</a></li>
+                    <li><a style="font-size: 14px" class="active" href="<%=request.getContextPath()%>/greenspace/mel">GreenSpace{Mel}</a></li>
+                    <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/greenspace/syd">GreenSpace{Syd}</a></li>
                 </c:when>
                 <c:when test="${state.equals('syd')}">
-                    <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/postcode/mel">Postcode{Mel}</a></li>
-                    <li><a style="font-size: 14px" class="active" href="<%=request.getContextPath()%>/postcode/syd">Postcode{Syd}</a></li>
+                    <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/greenspace/mel">GreenSpace{Mel}</a></li>
+                    <li><a style="font-size: 14px" class="active" href="<%=request.getContextPath()%>/greenspace/syd">GreenSpace{Syd}</a></li>
+
                 </c:when>
             </c:choose>
-            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/greenspace/mel">GreenSpace{Mel}</a></li>
-            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/greenspace/syd">GreenSpace{Syd}</a></li>
             <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/food">Restaurant</a></li>
         </ul>
     </div>
 </header>
-<div style="margin: 30px 10%; width:80%; text-align: center; font-size:x-large;">How many tweets are there in each postcode area in ${state}?</div>
+<div style="margin: 30px 10%; width:80%; text-align: center; font-size:x-large;">How many tweets are there in each green space in ${state}?</div>
 <div style="margin: 40px 10%; width:80%;">
     <table id="example" class="table table-striped table-bordered" cellspacing="0">
         <thead>
@@ -101,7 +103,7 @@
         <tbody>
         <c:forEach var="result" items="${results}">
             <tr>
-                <td><a href="<%=request.getContextPath()%>/map/postcode/${state}/${result.postcode}"><c:out value="${result.postcode}"/></a></td>
+                <td><a href="<%=request.getContextPath()%>/map/greenspace/${state}/${result.greenspaceId}"><c:out value="${result.greenspaceId}"/></a></td>
                 <td><c:out value="${result.totalTweets}"/></td>
                 <td><c:out value="${result.positiveTweets}"/></td>
                 <td><c:out value="${result.positiveTweets / result.totalTweets}"/></td>

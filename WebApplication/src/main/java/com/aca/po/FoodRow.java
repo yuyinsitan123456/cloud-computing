@@ -3,10 +3,10 @@ package com.aca.po;
 public class FoodRow {
 
     private int ogcFid = 0;
-    private int totalTweets = 0;
-    private int relevantTweets = 0;
-    private int positiveTweets = 0;
-    private int employees = 0;
+    private double totalTweets = 0;
+    private double relevantTweets = 0;
+    private double positiveTweets = 0;
+    private double employees = 0;
 
     public int getOgcFid() {
         return ogcFid;
@@ -16,35 +16,35 @@ public class FoodRow {
         this.ogcFid = ogcFid;
     }
 
-    public int getTotalTweets() {
+    public double getTotalTweets() {
         return totalTweets;
     }
 
-    public void setTotalTweets(int totalTweets) {
+    public void setTotalTweets(double totalTweets) {
         this.totalTweets = totalTweets;
     }
 
-    public int getRelevantTweets() {
+    public double getRelevantTweets() {
         return relevantTweets;
     }
 
-    public void setRelevantTweets(int relevantTweets) {
+    public void setRelevantTweets(double relevantTweets) {
         this.relevantTweets = relevantTweets;
     }
 
-    public int getPositiveTweets() {
+    public double getPositiveTweets() {
         return positiveTweets;
     }
 
-    public void setPositiveTweets(int positiveTweets) {
+    public void setPositiveTweets(double positiveTweets) {
         this.positiveTweets = positiveTweets;
     }
 
-    public int getEmployees() {
+    public double getEmployees() {
         return employees;
     }
 
-    public void setEmployees(int employees) {
+    public void setEmployees(double employees) {
         this.employees = employees;
     }
 

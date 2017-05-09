@@ -1,7 +1,5 @@
 package com.aca.po;
 
-import javafx.geometry.Pos;
-
 public class PostcodeCount implements Comparable<PostcodeCount> {
 
     private String postcodeLabel;
