@@ -1,5 +1,6 @@
 package com.aca.controller;
 
+import com.aca.cache.GreenspaceCache;
 import com.aca.dao.CouchConnector;
 import com.aca.po.GreenspaceRow;
 import com.google.gson.JsonObject;
@@ -47,6 +48,17 @@ public class GreenspaceController {
             for (JsonObject o : greenspaceSentimentTweets) {
                 if (o.getAsJsonArray("key").get(1).getAsString().equals("positive")) {
                     greenspaceRows.get(o.getAsJsonArray("key").get(0).getAsString()).setPositiveTweets(o.get("value").getAsInt());
+                }
+            }
+
+            if (state.equals("mel")) {
+                for (GreenspaceRow r : results) {
+                    r.setGreenspaceName(GreenspaceCache.vicAreas.get(r.getGreenspaceId()).getAsJsonObject("properties").get("greenspace_label_name").getAsString());
+                }
+            }
+            if (state.equals("syd")) {
+                for (GreenspaceRow r : results) {
+                    r.setGreenspaceName(GreenspaceCache.nswAreas.get(r.getGreenspaceId()).getAsJsonObject("properties").get("greenspace_label_name").getAsString());
                 }
             }
 

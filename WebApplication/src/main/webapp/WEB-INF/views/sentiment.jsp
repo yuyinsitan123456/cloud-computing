@@ -14,7 +14,7 @@
 
         .nav li {
             font-family: 'Oswald', sans-serif;
-            line-height: 40px;
+            line-height: 30px;
             height: 30px;
             border-bottom: 1px solid #888;
         }
@@ -110,10 +110,10 @@
     <div class="nav">
         <ul>
             <li><a style="font-size: 14px" class="active" href="<%=request.getContextPath()%>/sentiment">Sentiment</a></li>
-            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/postcode/mel">Postcode{Mel}</a></li>
-            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/postcode/syd">Postcode{Syd}</a></li>
-            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/greenspace/mel">GreenSpace{Mel}</a></li>
-            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/greenspace/syd">GreenSpace{Syd}</a></li>
+            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/postcode/mel">Postcode[Mel]</a></li>
+            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/postcode/syd">Postcode[Syd]</a></li>
+            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/greenspace/mel">GreenSpace[Mel]</a></li>
+            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/greenspace/syd">GreenSpace[Syd]</a></li>
             <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/food">Restaurant</a></li>
         </ul>
     </div>

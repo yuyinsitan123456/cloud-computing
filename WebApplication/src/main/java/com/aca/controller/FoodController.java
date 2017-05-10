@@ -24,38 +24,42 @@ public class FoodController {
     public ModelAndView getFood(HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("food");
 
-        HashMap<Integer, FoodRow> foodRows = new HashMap<Integer, FoodRow>();
-        List<FoodRow> results = new ArrayList<>();
+        try {
+            HashMap<Integer, FoodRow> foodRows = new HashMap<Integer, FoodRow>();
+            List<FoodRow> results = new ArrayList<>();
 
-        List<JsonObject> foodTweets = couchConnector.getView("mel", "view/food");
-        for (JsonObject o : foodTweets) {
-            FoodRow foodRow = new FoodRow();
-            foodRows.put(o.get("key").getAsInt(), foodRow);
-            foodRows.get(o.get("key").getAsInt()).setOgcFid(o.get("key").getAsInt());
-            foodRows.get(o.get("key").getAsInt()).setTotalTweets(o.get("value").getAsInt());
-            results.add(foodRow);
-        }
-
-        List<JsonObject> foodRelevantTweets = couchConnector.getView("mel", "view/foodRelevant");
-        for (JsonObject o : foodRelevantTweets) {
-            foodRows.get(o.getAsJsonArray("key").get(0).getAsInt()).setRelevantTweets(o.get("value").getAsInt());
-        }
-
-        List<JsonObject> foodSentimentTweets = couchConnector.getView("mel", "view/foodSentiment");
-        for (JsonObject o : foodSentimentTweets) {
-            if (o.getAsJsonArray("key").get(1).getAsString().equals("positive")) {
-                foodRows.get(o.getAsJsonArray("key").get(0).getAsInt()).setPositiveTweets(o.get("value").getAsInt());
+            List<JsonObject> foodTweets = couchConnector.getView("mel", "view/food");
+            for (JsonObject o : foodTweets) {
+                FoodRow foodRow = new FoodRow();
+                foodRows.put(o.get("key").getAsInt(), foodRow);
+                foodRows.get(o.get("key").getAsInt()).setOgcFid(o.get("key").getAsInt());
+                foodRows.get(o.get("key").getAsInt()).setTotalTweets(o.get("value").getAsInt());
+                results.add(foodRow);
             }
-        }
 
-        for (FoodRow foodRow : results) {
-            JsonObject o = FoodCache.melAreas.getOrDefault(foodRow.getOgcFid(), null);
-            if (o != null) {
-                foodRow.setEmployees(o.getAsJsonObject("properties").get("food_and_beverage_services").getAsInt());
+            List<JsonObject> foodRelevantTweets = couchConnector.getView("mel", "view/foodRelevant");
+            for (JsonObject o : foodRelevantTweets) {
+                foodRows.get(o.getAsJsonArray("key").get(0).getAsInt()).setRelevantTweets(o.get("value").getAsInt());
             }
-        }
 
-        mav.addObject("results", results);
+            List<JsonObject> foodSentimentTweets = couchConnector.getView("mel", "view/foodSentiment");
+            for (JsonObject o : foodSentimentTweets) {
+                if (o.getAsJsonArray("key").get(1).getAsString().equals("positive")) {
+                    foodRows.get(o.getAsJsonArray("key").get(0).getAsInt()).setPositiveTweets(o.get("value").getAsInt());
+                }
+            }
+
+            for (FoodRow foodRow : results) {
+                JsonObject o = FoodCache.melAreas.getOrDefault(foodRow.getOgcFid(), null);
+                if (o != null) {
+                    foodRow.setEmployees(o.getAsJsonObject("properties").get("food_and_beverage_services").getAsInt());
+                }
+            }
+
+            mav.addObject("results", results);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return mav;
     }
 

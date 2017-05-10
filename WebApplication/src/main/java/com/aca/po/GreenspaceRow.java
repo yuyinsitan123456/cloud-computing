@@ -4,6 +4,15 @@ public class GreenspaceRow {
     private String greenspaceId;
     private double totalTweets;
     private double positiveTweets;
+    private String greenspaceName;
+
+    public String getGreenspaceName() {
+        return greenspaceName;
+    }
+
+    public void setGreenspaceName(String greenspaceName) {
+        this.greenspaceName = greenspaceName;
+    }
 
     public String getGreenspaceId() {
         return greenspaceId;

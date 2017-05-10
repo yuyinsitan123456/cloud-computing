@@ -20,7 +20,7 @@
 
         .nav li {
             font-family: 'Oswald', sans-serif;
-            line-height: 40px;
+            line-height: 30px;
             height: 30px;
             border-bottom: 1px solid #888;
         }
@@ -70,16 +70,16 @@
     <div class="nav">
         <ul>
             <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/sentiment">Sentiment</a></li>
-            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/postcode/mel">Postcode{Mel}</a></li>
-            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/postcode/syd">Postcode{Syd}</a></li>
-            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/greenspace/mel">GreenSpace{Mel}</a></li>
-            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/greenspace/syd">GreenSpace{Syd}</a></li>
+            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/postcode/mel">Postcode[Mel]</a></li>
+            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/postcode/syd">Postcode[Syd]</a></li>
+            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/greenspace/mel">GreenSpace[Mel]</a></li>
+            <li><a style="font-size: 14px" href="<%=request.getContextPath()%>/greenspace/syd">GreenSpace[Syd]</a></li>
             <li><a style="font-size: 14px" class="active" href="<%=request.getContextPath()%>/food">Restaurant</a></li>
         </ul>
     </div>
 </header>
 <div style="margin: 30px 10%; width:80%; text-align: center; font-size:x-large;">Where is better to start a new restaurant in City of Melbourne?</div>
-<div style="margin: 40px 10%; width:80%;">
+<div style="margin: 10px 10%; width:80%;">
     <table id="example" class="table table-striped table-bordered" cellspacing="0">
         <thead>
         <tr>
@@ -97,12 +97,12 @@
         <c:forEach var="result" items="${results}">
             <tr>
                 <td><a href="<%=request.getContextPath()%>/map/food/mel/${result.ogcFid}"><c:out value="${result.ogcFid}"/></a></td>
-                <td><c:out value="${result.totalTweets}"/></td>
-                <td><c:out value="${result.relevantTweets}"/></td>
-                <td><c:out value="${result.positiveTweets}"/></td>
-                <td><c:out value="${result.totalTweets / result.employees}"/></td>
-                <td><c:out value="${result.relevantTweets / result.employees}"/></td>
-                <td><c:out value="${result.employees}"/></td>
+                <td><c:out value="${Integer.valueOf(result.totalTweets)}"/></td>
+                <td><c:out value="${Integer.valueOf(result.relevantTweets)}"/></td>
+                <td><c:out value="${Integer.valueOf(result.positiveTweets)}"/></td>
+                <td><c:out value="${String.format('%.2f', result.totalTweets / result.employees)}"/></td>
+                <td><c:out value="${String.format('%.2f', result.relevantTweets / result.employees)}"/></td>
+                <td><c:out value="${Integer.valueOf(result.employees)}"/></td>
             </tr>
         </c:forEach>
         </tbody>

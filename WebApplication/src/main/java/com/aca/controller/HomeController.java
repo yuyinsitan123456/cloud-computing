@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 @Controller
 public class HomeController {
     @Autowired
@@ -76,6 +80,55 @@ public class HomeController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @RequestMapping(value = "/map/{type}/{state}/top/{count}", method = RequestMethod.GET)
+    public ModelAndView getTopMap(@PathVariable(value="type") final String type,
+                                  @PathVariable(value="state") final String state,
+                                  @PathVariable(value="count") final int count,
+                                  HttpServletResponse response) {
+        ModelAndView mav = null;
+        mav = new ModelAndView("mapTop");
+        try {
+            List<JsonObject> tops = couchConnector.getView(state, "view/" + type);
+            JsonArray outerArray = new JsonArray();
+
+            // sort tops
+            Collections.sort(tops, new Comparator<JsonObject>(){
+                @Override
+                public int compare(JsonObject a, JsonObject b) {
+                    return b.get("value").getAsInt() - a.get("value").getAsInt();
+                }
+            });
+
+            if (type.equals("postcode") && state.equals("mel")) {
+                for (int i = 0; i < count; i++) {
+                    outerArray.add(PostcodeCache.vicAreas.get(tops.get(i).get("key").getAsString()).getAsJsonObject("geometry").getAsJsonArray("coordinates"));
+                }
+            }
+            if (type.equals("postcode") && state.equals("syd")) {
+                for (int i = 0; i < count; i++) {
+                    outerArray.add(PostcodeCache.nswAreas.get(tops.get(i).get("key").getAsString()).getAsJsonObject("geometry").getAsJsonArray("coordinates"));
+                }
+            }
+            if (type.equals("greenspace") && state.equals("mel")) {
+                for (int i = 0; i < count; i++) {
+                    outerArray.add(GreenspaceCache.vicAreas.get(tops.get(i).get("key").getAsString()).getAsJsonObject("geometry").getAsJsonArray("coordinates"));
+                }
+            }
+            if (type.equals("greenspace") && state.equals("syd")) {
+                for (int i = 0; i < count; i++) {
+                    outerArray.add(GreenspaceCache.nswAreas.get(tops.get(i).get("key").getAsString()).getAsJsonObject("geometry").getAsJsonArray("coordinates"));
+                }
+            }
+
+            mav.addObject("jsonArray", outerArray.toString());
+            return mav;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 }
