@@ -1,6 +1,7 @@
 # Australian City Analytics
 
 COMP90024 Cluster and Cloud Computing (2017 Semester 1)
+
 Team 38
 
 Featuring:
@@ -8,7 +9,7 @@ Featuring:
 * Twitter harvesting by streaming and search api
 * CouchDB storage
 * Data processing with CouchDB built-in MapReduce, NLP and AURIN support
-* Web front-end based on Spring
+* Web application as front-end based on Spring
 * Boto & Ansible deployment
 
 Project Structure:
