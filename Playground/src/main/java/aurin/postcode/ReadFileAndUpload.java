@@ -1,4 +1,4 @@
-package food;
+package aurin.postcode;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -10,15 +10,13 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ReadFileAndUpload {
 
     public static void main(String[] args) {
         /* Read file */
         StringBuilder sb = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader("/Users/nek/Desktop/CCCAsg2/AURIN/Melbourne/City_of_Melbourne_CLUE_Employment_By_Industry_2010.json"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("/Users/nek/Desktop/CCCAsg2/AURIN/Sydney/PSMA_Greenspace__Polygon___August_2016_.json"))) {
             String str = null;
             while ((str = br.readLine()) != null) {
                 sb.append(str);
@@ -30,24 +28,17 @@ public class ReadFileAndUpload {
         }
         String fileContent = sb.toString();
 
+
         /* Ready to upload */
-        CouchInsertor db = new CouchInsertor("food", "couchdb", "123456");
+        CouchInsertor db = new CouchInsertor("nsw_greenspace", "couchdb", "123456");
 
         /* Convert fileContent into big JsonObject */
         JsonObject file = new JsonParser().parse(fileContent).getAsJsonObject();
         JsonArray features = file.getAsJsonArray("features");
+        for (JsonElement postcodeElement : features) {
+            JsonObject postcodeJson = postcodeElement.getAsJsonObject();
 
-        /* Upload! */
-        for (JsonElement foodElement : features) {
-            JsonObject foodJson = foodElement.getAsJsonObject();
-
-            int food_and_beverage_services = 0;
-            if (foodJson.getAsJsonObject("properties").get("food_and_beverage_services").isJsonPrimitive()) {
-                food_and_beverage_services = foodJson.getAsJsonObject("properties").get("food_and_beverage_services").getAsInt();
-            }
-            if (food_and_beverage_services != 0) {
-                db.insert(foodJson);
-            }
+            db.insert(postcodeJson);
         }
     }
 }
