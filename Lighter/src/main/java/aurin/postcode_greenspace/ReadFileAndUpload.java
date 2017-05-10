@@ -1,4 +1,4 @@
-package aurin.postcode;
+package aurin.postcode_greenspace;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

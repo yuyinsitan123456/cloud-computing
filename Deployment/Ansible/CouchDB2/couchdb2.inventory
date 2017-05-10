@@ -1,0 +1,7 @@
+#This inventory group lists all the nodes on which we will install CouchDB2
+#Furthermore, the role will automatically configure those nodes to be in a cluster if configure_cluster is set to True (default is False).
+[couches]
+115.146.93.144 configure_cluster=True
+115.146.95.57 configure_cluster=True
+115.146.92.138 configure_cluster=True
+115.146.92.139 configure_cluster=True

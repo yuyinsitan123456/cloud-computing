@@ -1,0 +1,9 @@
+---
+- hosts: 115.146.93.144
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+  
+  roles:
+  - couchdb2
+

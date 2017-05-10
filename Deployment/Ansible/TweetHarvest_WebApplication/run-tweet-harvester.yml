@@ -1,0 +1,16 @@
+- hosts: all
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+  tasks:
+
+  - name: copy jar file
+    copy:
+      src: /home/ubuntu/ansibleworking/TH.jar
+      dest: /home/ubuntu
+      mode: 0644
+    
+  - name: run java.jar
+    command: nohup java -cp TH.jar th.Main -ck BMoHMxZ7o7NtHkPOVg6KGsnSK -cs qGe1XMll8L4Ir9ZsD1epwsiJKeAOP0KqyVP57eKg3KMlbYEjH3 -at 852422975399776256-p8vM9lzq5gYswGF9zH1Kq974V6LTupo -ats ko8BDpdlUUzChUmWkiSgeDwRfoz2dV5z6oMOm7f1R2SAC -lt sydney -dbAddr 115.146.92.139 -dbUser couchdb -dbPass 123456 -nlp &
+
+    

@@ -1,0 +1,6 @@
+---
+- include: main_centos.yaml
+  when: ansible_distribution == "CentOS" # and ansible_distribution_version == "6.9"
+
+- include: main_ubuntu.yaml
+  when: ansible_distribution == "Ubuntu" # and ansible_distribution_version == "16.04"
